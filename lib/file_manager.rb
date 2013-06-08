@@ -1,18 +1,13 @@
 require 'file_manager/file_manager.rb'
+require 'fileutils'
 
 module FileManager
-  def self.upload_file(file, model_name)
+  def self.upload(file, model_name)
     origin_name = file.original_filename
-    name = origin_name
-    #image_dir = Rails.root.join('app', 'assets', 'images')
     image_dir = Rails.root.join('public', 'uploads')
     upload_dir = model_name.to_s
 
-    i = 1
-    while File.exists?(File.join(image_dir, upload_dir, name)) do
-      name = i.to_s + '_' + origin_name
-      i += 1
-    end
+    name = self.get_unique_name(File.join(image_dir, upload_dir), origin_name)
 
     file_path = File.join(upload_dir, name)
 
@@ -24,4 +19,19 @@ module FileManager
 
     return '/uploads/' + file_path
   end
+
+  def self.rm(file_path)
+    FileUtils.rm(Rails.root.join('public', file_path[1..-1]))
+  end
+
+  private
+    def self.get_unique_name(path, origin_name)
+      name = origin_name
+      i = 1
+      while File.exists?(File.join(path, name)) do
+        name = i.to_s + '_' + origin_name
+        i += 1
+      end
+      name
+    end
 end
