@@ -18,12 +18,7 @@ module FileManager
 
     # write the file
     File.open(path, 'wb') { |f| f.write(file.read) }
-    thumbs = self.get_thumbs(upload_image_dir, name)
-
-    p '===================================='
-    p thumbs.methods
-    p thumbs
-    p '===================================='
+    self.get_thumbs(upload_image_dir, name)
 
     return '/uploads/' + file_path
   end
@@ -44,8 +39,6 @@ module FileManager
       new_img.write(new_img_name)
       thumbs.push(new_img_name)
     }
-
-    thumbs
   end
 
   def self.rm(file_path)
