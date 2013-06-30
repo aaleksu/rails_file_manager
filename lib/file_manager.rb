@@ -6,7 +6,7 @@ module FileManager
   def self.upload(file, model_name)
     origin_name = file.original_filename
     image_dir = Rails.root.join('public', 'uploads')
-    upload_dir = model_name.to_s
+    upload_dir = model_name.to_s + '/'
     upload_image_dir = File.join(image_dir, upload_dir)
 
     name = self.get_unique_name(upload_image_dir, origin_name)
@@ -18,27 +18,38 @@ module FileManager
 
     # write the file
     File.open(path, 'wb') { |f| f.write(file.read) }
-    self.get_thumbs(upload_image_dir, name)
+    thumbs = self.get_thumbs(upload_image_dir, name)
 
-    return '/uploads/' + file_path
+    upload_result = {
+      'origin' => '/uploads/' + file_path,
+      'thumbs' => thumbs
+    }
+
+    upload_result
   end
 
   def self.get_thumbs(dir, source_image_name)
-    thumbs = []
+    thumb_dir = dir.to_s.sub(Rails.root.join('public').to_s, '')
+    thumbs = {}
     source_image = Magick::Image.read(File.join(dir, source_image_name)).first
 
     source_image.change_geometry('100x100') { |cols, rows, img|
-      new_img = img.resize(cols, rows)
-      new_img_name = File.join(dir, '100x100' + source_image_name)
-      new_img.write(new_img_name)
-      thumbs.push(new_img_name)
+      thumb = img.resize(cols, rows)
+      thumb_file_name = '100x100' + source_image_name
+      thumb_name = File.join(dir, thumb_file_name)
+      thumb.write(thumb_name)
+      thumbs['100x100'] = thumb_dir + thumb_file_name
     }
+
     source_image.change_geometry('250x250') { |cols, rows, img|
-      new_img = img.resize(cols, rows)
-      new_img_name = File.join(dir, '250x250' + source_image_name)
-      new_img.write(new_img_name)
-      thumbs.push(new_img_name)
+      thumb = img.resize(cols, rows)
+      thumb_file_name = '250x250' + source_image_name
+      thumb_name = File.join(dir, thumb_file_name)
+      thumb.write(thumb_name)
+      thumbs['250x250'] = thumb_dir + thumb_file_name
     }
+
+    thumbs
   end
 
   def self.rm(file_path)
