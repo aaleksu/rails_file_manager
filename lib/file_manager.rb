@@ -3,7 +3,10 @@ require 'fileutils'
 require 'RMagick'
 
 module FileManager
+  @images_extensions = ['.jpg', '.png', '.gif']
   def self.upload(file, model_name)
+    FileUtils.mkdir(Rails.root.join('public', 'uploads', model_name)) unless File.exists?(Rails.root.join('public', 'uploads', model_name))
+
     origin_name = file.original_filename
     image_dir = Rails.root.join('public', 'uploads')
     upload_dir = model_name.to_s + '/'
@@ -18,7 +21,8 @@ module FileManager
 
     # write the file
     File.open(path, 'wb') { |f| f.write(file.read) }
-    thumbs = self.get_thumbs(upload_image_dir, name)
+    thumbs = {}
+    thumbs = self.get_thumbs(upload_image_dir, name) if @images_extensions.include?(File.extname(name))
 
     upload_result = {
       'origin' => '/uploads/' + file_path,
