@@ -9,9 +9,9 @@ Gem::Specification.new do |s|
   s.version     = FileManager::VERSION
   s.authors     = ["Alex Anisimov"]
   s.email       = ["a.aleksu@gmail.com"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of FileManager."
-  s.description = "TODO: Description of FileManager."
+  s.homepage    = "https://github.com/aaleksu/rails_file_manager"
+  s.summary     = "File manager"
+  s.description = "Uploading files (and creating thumbs for images); still in development"
 
   s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
   s.test_files = Dir["test/**/*"]
