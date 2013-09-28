@@ -39,7 +39,7 @@ module FileManager
 
     source_image.change_geometry('100x100') { |cols, rows, img|
       thumb = img.resize(cols, rows)
-      thumb_file_name = '100x100' + source_image_name
+      thumb_file_name = '100x100_' + source_image_name
       thumb_name = File.join(dir, thumb_file_name)
       thumb.write(thumb_name)
       thumbs['100x100'] = thumb_dir + thumb_file_name
@@ -47,7 +47,7 @@ module FileManager
 
     source_image.change_geometry('250x250') { |cols, rows, img|
       thumb = img.resize(cols, rows)
-      thumb_file_name = '250x250' + source_image_name
+      thumb_file_name = '250x250_' + source_image_name
       thumb_name = File.join(dir, thumb_file_name)
       thumb.write(thumb_name)
       thumbs['250x250'] = thumb_dir + thumb_file_name
