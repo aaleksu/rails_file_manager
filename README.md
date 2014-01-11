@@ -1,4 +1,8 @@
-rails_file_manager
+Rails file manager
 ==================
 
-rails vendored gem to file uploading
+This is a gem for uploading files with rails application.
+
+h3. Installation
+
+gem 'file_manager', :git => 'https://github.com/aaleksu/rails_file_manager.git'
