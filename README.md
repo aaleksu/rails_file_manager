@@ -1,7 +1,7 @@
 Rails file manager
 ==================
 
-This is a gem for uploading files with rails application.
+This is a gem for uploading files in rails application.
 
 Installation
 ------------
